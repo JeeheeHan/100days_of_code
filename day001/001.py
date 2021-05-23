@@ -1,4 +1,5 @@
 """Coding practice"""
+from collections import defaultdict
 from typing import DefaultDict
 import unittest
 import time
@@ -18,23 +19,26 @@ class Problem(object):
 
 class Test(unittest.TestCase):
     test_cases = [
-        ([[1,2,5,8,10], 6], [0.2]),
-        ([[1,8,22,8,10], 16],[1,3]),
-        ([[1,8,265,9,88], 274],[2,4])
+        ([[1,2,5,8,10], 6], [0,2]),
+        ([[1,8,22,8,10], 16], [1,3]),
+        ([[1,8,265,9,88], 274], [2,3])
     ]
 
     def testing_functions(self):
         times_to_run = 1000
-        function_runtimes = DefaultDict(float)
+        function_runtimes = defaultdict(float)
         
         for num in range(times_to_run):
             for num_target, expected in self.test_cases:
                 test_function = Problem().two_sum
                 start = time.perf_counter()
-                assert(test_function(num_target[0], num_target[1]) == expected), f"two_sum failed for {num_target}"
-                function_runtimes[t.two_sum.__name__] += (
-                    time.perf_counter - start
+                assert(test_function(num_target[0], num_target[1]) == expected),\
+                    f"two_sum failed for {num_target} and {expected}"
+                
+                function_runtimes[test_function.__name__] += (
+                    time.perf_counter() - start
                 ) * 1000
+
         print(f"\nRan{times_to_run} times")
 
         for function_ran, runtime in function_runtimes.items():
